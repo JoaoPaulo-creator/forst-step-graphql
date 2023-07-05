@@ -10,7 +10,7 @@ type Appointment {
 }
 
 input CreateAppointmentInput {
-  customerId: String!
+  customerId: CustomerInput!
   endsAt: DateTime!
   startsAt: DateTime!
 }
@@ -20,7 +20,7 @@ input CustomerInput {
 }
 
 type CustomerModel {
-  id: ID!
+  id: String!
   name: String!
 }
 

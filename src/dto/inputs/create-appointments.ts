@@ -1,4 +1,6 @@
 import { Field, InputType } from "type-graphql";
+import { CustomerModel } from "../models/customer-model";
+import { CustomerInput } from "./customer-input";
 
 /**
  *
@@ -8,8 +10,8 @@ import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class CreateAppointmentInput {
-  @Field(() => String)
-  customerId: string;
+  @Field(() => CustomerInput)
+  customerId: CustomerInput;
 
   @Field(() => Date)
   startsAt: Date;

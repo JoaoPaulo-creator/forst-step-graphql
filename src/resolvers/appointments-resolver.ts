@@ -9,18 +9,18 @@ import {
 import { CreateAppointmentInput } from "../dto/inputs/create-appointments";
 import { Appointment } from "../dto/models/appointment-model";
 import { CustomerModel } from "../dto/models/customer-model";
+import { prisma } from "../lib/prisma-service";
 
 // Passando esse tipo de retorno, para que seja possivel utilizar o decorador @FieldResolver
 @Resolver(() => Appointment)
 export class AppointMentsResolver {
   @Query(() => [Appointment])
   async appointments() {
-    return [
-      {
-        startsAt: new Date(),
-        endsAt: new Date(),
+    return prisma.appointments.findMany({
+      include: {
+        customer: true,
       },
-    ];
+    });
   }
 
   @Mutation(() => Appointment)
@@ -32,15 +32,17 @@ export class AppointMentsResolver {
       endsAt: data.endsAt,
     };
 
-    return appointment;
+    const teste = { data, ...appointment };
+
+    return teste;
   }
 
   @FieldResolver(() => CustomerModel)
   async customer(@Root() appointment: Appointment) {
-    console.log(appointment);
-
-    return {
-      name: "Joao Paulo",
-    };
+    return prisma.appointments.findMany({
+      include: {
+        customer: true,
+      },
+    });
   }
 }

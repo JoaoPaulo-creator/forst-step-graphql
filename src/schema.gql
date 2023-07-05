@@ -15,7 +15,12 @@ input CreateAppointmentInput {
   startsAt: DateTime!
 }
 
+input CustomerInput {
+  name: String!
+}
+
 type CustomerModel {
+  id: ID!
   name: String!
 }
 
@@ -26,8 +31,10 @@ scalar DateTime
 
 type Mutation {
   createAppointment(data: CreateAppointmentInput!): Appointment!
+  createCustomer(data: CustomerInput!): CustomerModel!
 }
 
 type Query {
   appointments: [Appointment!]!
+  findCustomer: [CustomerModel!]!
 }

@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import { CustomerModel } from "./customer-model";
 
 /**
  *
@@ -9,9 +10,15 @@ import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Appointment {
-  @Field(() => Date)
-  startsAt: Date;
+  @Field(() => String)
+  id: string;
 
-  @Field(() => Date)
-  endsAt: Date;
+  @Field(() => String)
+  title: string;
+
+  @Field(() => String, { nullable: true })
+  description?: string;
+
+  @Field(() => CustomerModel)
+  customer: CustomerModel;
 }

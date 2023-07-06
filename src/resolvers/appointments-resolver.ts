@@ -16,7 +16,7 @@ import { prisma } from "../lib/prisma-service";
 export class AppointMentsResolver {
   @Query(() => [Appointment])
   async appointments() {
-    return prisma.appointments.findMany({
+    return prisma.appointment.findMany({
       include: {
         customer: true,
       },
@@ -27,22 +27,32 @@ export class AppointMentsResolver {
   async createAppointment(
     @Arg("data", () => CreateAppointmentInput) data: CreateAppointmentInput
   ) {
-    const appointment = {
-      startsAt: data.startsAt,
-      endsAt: data.endsAt,
-    };
-
-    const teste = { data, ...appointment };
-
-    return teste;
-  }
-
-  @FieldResolver(() => CustomerModel)
-  async customer(@Root() appointment: Appointment) {
-    return prisma.appointments.findMany({
+    const appointment = prisma.appointment.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        customer: {
+          connect: {
+            id: data.customerId,
+          },
+        },
+      },
       include: {
         customer: true,
       },
     });
+
+    return appointment;
+  }
+
+  @FieldResolver(() => CustomerModel)
+  async customer(@Root() appointment: Appointment) {
+    return prisma.appointment
+      .findUnique({
+        where: {
+          id: appointment.id,
+        },
+      })
+      .customer();
   }
 }

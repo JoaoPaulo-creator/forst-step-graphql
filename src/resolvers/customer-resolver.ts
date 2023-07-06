@@ -4,7 +4,7 @@ import { CustomerInput } from "../dto/inputs/customer-input";
 import { Context, prisma } from "../lib/prisma-service";
 import { PrismaClient } from "@prisma/client";
 
-@Resolver(CustomerModel)
+@Resolver()
 export class CustomerResolver {
   @Mutation(() => CustomerModel)
   async createCustomer(
@@ -12,6 +12,7 @@ export class CustomerResolver {
   ) {
     return prisma.customer.create({
       data: {
+        email: dataCustomer.email,
         name: dataCustomer.name,
       },
     });
@@ -19,6 +20,6 @@ export class CustomerResolver {
 
   @Query(() => [CustomerModel])
   async findCustomer() {
-    return prisma.customer.findMany();
+    return prisma.customer.findMany({ include: { appointments: true } });
   }
 }

@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
+import { Appointment } from "./appointment-model";
 
 // classe usada pra exemplificar o relacionado dos models no graphql
 
@@ -9,4 +10,10 @@ export class CustomerModel {
 
   @Field(() => String)
   name: string;
+
+  @Field(() => String)
+  email: string;
+
+  @Field(() => [Appointment])
+  appointments: Appointment[];
 }

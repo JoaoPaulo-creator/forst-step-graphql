@@ -5,29 +5,28 @@
 
 type Appointment {
   customer: CustomerModel!
-  endsAt: DateTime!
-  startsAt: DateTime!
+  description: String
+  id: String!
+  title: String!
 }
 
 input CreateAppointmentInput {
-  customerId: CustomerInput!
-  endsAt: DateTime!
-  startsAt: DateTime!
+  customerId: String!
+  description: String!
+  title: String!
 }
 
 input CustomerInput {
+  email: String!
   name: String!
 }
 
 type CustomerModel {
+  appointments: [Appointment!]!
+  email: String!
   id: String!
   name: String!
 }
-
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime
 
 type Mutation {
   createAppointment(data: CreateAppointmentInput!): Appointment!

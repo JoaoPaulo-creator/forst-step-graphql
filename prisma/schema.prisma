@@ -5,21 +5,29 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator typegraphql {
+  provider            = "typegraphql-prisma"
+  output              = "../prisma/generated/type-graphql"
+  formatGeneratedCode = "prettier"
+  emitTranspiledCode  = true
+}
+
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Appointments {
-  id         String   @id @default(uuid())
-  startsAt   DateTime @default(now())
-  endsAt     DateTime
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String
+model Appointment {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
 }
 
 model Customer {
-  id           String         @id @default(uuid())
+  id           String        @id @default(uuid())
   name         String
-  Appointments Appointments[]
+  email        String        @unique
+  appointments Appointment[]
 }

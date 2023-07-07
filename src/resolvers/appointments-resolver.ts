@@ -46,7 +46,26 @@ export class AppointMentsResolver {
   }
 
   @Mutation(() => Appointment)
+  async updateAppointment(
+    @Arg("id", () => String) appointmentId: string,
+    @Arg("appointmentTitle", () => String) appointmentTitle: string,
+    @Arg("appointmentDescription", () => String) appointmentDescription: string
+  ) {
+    return prisma.appointment.update({
+      where: {
+        id: appointmentId,
+      },
+      data: {
+        title: appointmentTitle,
+        description: appointmentDescription,
+      },
+    });
+  }
+
+  @Mutation(() => Appointment)
   async cancelAppointment(@Arg("id", () => String) appointmentId: string) {
+    // TODO Criar validacao para quando nao existir um id
+
     const appointment = prisma.appointment.findUniqueOrThrow({
       where: { id: appointmentId },
     });

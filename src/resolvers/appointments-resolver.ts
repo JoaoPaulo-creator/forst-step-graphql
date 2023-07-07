@@ -45,6 +45,19 @@ export class AppointMentsResolver {
     return appointment;
   }
 
+  @Mutation(() => Appointment)
+  async cancelAppointment(@Arg("id", () => String) appointmentId: string) {
+    const appointment = prisma.appointment.findUniqueOrThrow({
+      where: { id: appointmentId },
+    });
+
+    if (appointment) {
+      return prisma.appointment.delete({ where: { id: appointmentId } });
+    }
+
+    throw new Error("Appointment not found!");
+  }
+
   @FieldResolver(() => CustomerModel)
   async customer(@Root() appointment: Appointment) {
     return prisma.appointment

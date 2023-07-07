@@ -29,6 +29,7 @@ type CustomerModel {
 }
 
 type Mutation {
+  cancelAppointment(id: String!): Appointment!
   createAppointment(data: CreateAppointmentInput!): Appointment!
   createCustomer(data: CustomerInput!): CustomerModel!
 }
